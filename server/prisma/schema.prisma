@@ -20,7 +20,7 @@ model User {
   cpf        String    @unique @map("cpf")
   birthdate  DateTime  @map("birthdate")
   motherName String    @map("mother_name")
-  status     String    @map("status")
+  status     String?   @default("ACTIVE") @map("status")
   createdAt  DateTime? @default(now()) @map("created_at")
   updatedAt  DateTime? @updatedAt @map("updated_at")
 }
