@@ -1,10 +1,10 @@
-import { validateDisableUserSchemaBody } from "./../validations/disable-user.validation"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { UserService } from "../services/user.service"
 import httpStatus from "http-status"
 import {
   validateCreateUserSchemaBody,
   validateUpdateUserSchemaBody,
+  validateDisableUserSchemaBody,
 } from "../validations"
 
 const create = async (request: FastifyRequest, reply: FastifyReply) => {
