@@ -1,0 +1,6 @@
+import { FastifyInstance } from "fastify"
+import { UserController } from "../controllers/user.controller"
+
+export const userRoutes = async (app: FastifyInstance) => {
+  app.post("/user/create", UserController.create)
+}

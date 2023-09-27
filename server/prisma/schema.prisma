@@ -11,16 +11,16 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid()) @map("id")
-  name       String   @map("name")
-  login      String   @unique @map("login")
-  password   String   @map("password")
-  email      String   @unique @map("email")
-  phone      String   @map("phone")
-  cpf        String   @unique @map("cpf")
-  birthdate  DateTime @map("birthdate")
-  motherName String   @map("mother_name")
-  status     String   @map("status")
-  createdAt  DateTime @map("created_at")
-  updatedAt  DateTime @updatedAt() @map("updated_at")
+  id         String    @id @default(uuid()) @map("id")
+  name       String    @map("name")
+  login      String    @unique @map("login")
+  password   String    @map("password")
+  email      String    @unique @map("email")
+  phone      String    @map("phone")
+  cpf        String    @unique @map("cpf")
+  birthdate  DateTime  @map("birthdate")
+  motherName String    @map("mother_name")
+  status     String    @map("status")
+  createdAt  DateTime? @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
 }
