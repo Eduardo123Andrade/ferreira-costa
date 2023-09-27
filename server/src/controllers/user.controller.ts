@@ -11,6 +11,15 @@ const create = async (request: FastifyRequest, reply: FastifyReply) => {
   return reply.status(httpStatus.CREATED).send(user)
 }
 
+const disable = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { userId } = request.params as any
+
+  await UserService.disable(userId)
+
+  return reply.status(httpStatus.OK).send()
+}
+
 export const UserController = {
   create,
+  disable,
 }

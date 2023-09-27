@@ -51,6 +51,8 @@ export const errorHandler = (
   _: FastifyRequest,
   reply: FastifyReply
 ) => {
+  console.log(error)
+
   if (error instanceof PrismaClientKnownRequestError) prismaError(error, reply)
   if (error instanceof ZodError) zodError(error, reply)
 
