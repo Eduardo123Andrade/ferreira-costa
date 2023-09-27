@@ -1,3 +1,4 @@
+import { validateDisableUserSchemaBody } from "./../validations/disable-user.validation"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { UserService } from "../services/user.service"
 import httpStatus from "http-status"
@@ -15,9 +16,9 @@ const create = async (request: FastifyRequest, reply: FastifyReply) => {
 }
 
 const disable = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { userId } = request.params as any
+  const { userIds } = validateDisableUserSchemaBody(request.body)
 
-  await UserService.disable(userId)
+  await UserService.disable(userIds)
 
   return reply.status(httpStatus.OK).send()
 }

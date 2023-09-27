@@ -16,17 +16,21 @@ const create = async (data: CreateUser) => {
   return createdUser
 }
 
-const disable = async (id: string) => {
-  await find(id)
-
-  const updatedUser = await prisma.user.update({
-    where: { id },
+const disable = async (usersIds: string[]) => {
+  const { count } = await prisma.user.updateMany({
+    where: {
+      id: {
+        in: usersIds,
+      },
+    },
     data: {
       status: "INACTIVE",
     },
   })
 
-  return updatedUser
+  if (!count) throw new NotFoundError("Users not found")
+
+  return count
 }
 
 const update = async (id: string, data: UpdateUser) => {
