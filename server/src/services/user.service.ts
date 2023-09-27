@@ -1,5 +1,6 @@
 import { NotFoundError } from "../error/NotFoundError"
 import { CreateUser } from "../interfaces/create-user"
+import { UpdateUser } from "../interfaces/update-user"
 import prisma from "../lib/prisma"
 
 const find = async (id: string) => {
@@ -28,7 +29,19 @@ const disable = async (id: string) => {
   return updatedUser
 }
 
+const update = async (id: string, data: UpdateUser) => {
+  await find(id)
+
+  const user = await prisma.user.update({
+    where: { id },
+    data,
+  })
+
+  return user
+}
+
 export const UserService = {
   create,
   disable,
+  update,
 }

@@ -5,4 +5,6 @@ export const userRoutes = async (app: FastifyInstance) => {
   app.post("/user/create", UserController.create)
 
   app.patch("/user/disable/:userId", UserController.disable)
+
+  app.put("/user/:userId", UserController.update)
 }

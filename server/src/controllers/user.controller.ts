@@ -1,7 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { UserService } from "../services/user.service"
 import httpStatus from "http-status"
-import { validateCreateUserSchemaBody } from "../validations"
+import {
+  validateCreateUserSchemaBody,
+  validateUpdateUserSchemaBody,
+} from "../validations"
 
 const create = async (request: FastifyRequest, reply: FastifyReply) => {
   const data = validateCreateUserSchemaBody(request.body)
@@ -19,7 +22,16 @@ const disable = async (request: FastifyRequest, reply: FastifyReply) => {
   return reply.status(httpStatus.OK).send()
 }
 
+const update = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { userId } = request.params as any
+  const data = validateUpdateUserSchemaBody(request.body)
+  const user = await UserService.update(userId, data)
+
+  return reply.status(httpStatus.OK).send(user)
+}
+
 export const UserController = {
   create,
   disable,
+  update,
 }
