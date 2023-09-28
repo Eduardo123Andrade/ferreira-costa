@@ -33,7 +33,6 @@ const update = async (request: FastifyRequest, reply: FastifyReply) => {
 
 const get = async (request: FastifyRequest, reply: FastifyReply) => {
   const query = request.query as any
-  console.log(query.name, "???")
   const users = await UserService.get(query)
 
   return reply.status(httpStatus.OK).send(users)

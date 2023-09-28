@@ -75,8 +75,6 @@ const get = async (query: any) => {
     limit,
     offset = 0,
   } = query
-  console.log(new Date(query.createdAt))
-  console.log(...filterByDate("updatedAt", updatedAt))
   const users = await prisma.user.findMany({
     where: {
       AND: [
