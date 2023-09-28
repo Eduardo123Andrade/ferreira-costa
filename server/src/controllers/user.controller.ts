@@ -6,11 +6,13 @@ import {
   validateUpdateUserSchemaBody,
   validateDisableUserSchemaBody,
 } from "../validations"
+import { userView } from "../views/user.view"
 
 const create = async (request: FastifyRequest, reply: FastifyReply) => {
   const data = validateCreateUserSchemaBody(request.body)
 
-  const user = await UserService.create(data)
+  const userResponse = await UserService.create(data)
+  const user = userView(userResponse)
 
   return reply.status(httpStatus.CREATED).send(user)
 }
