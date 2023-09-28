@@ -1,6 +1,5 @@
 import { NotFoundError } from "../error/NotFoundError"
-import { CreateUser } from "../interfaces/create-user"
-import { UpdateUser } from "../interfaces/update-user"
+import { CreateUser, UpdateUser, UserFilter } from "../interfaces/"
 import prisma from "../lib/prisma"
 
 const find = async (id: string) => {
@@ -44,11 +43,7 @@ const update = async (id: string, data: UpdateUser) => {
   return user
 }
 
-interface Test {
-  name: string
-}
-
-const filterByDate = (field: string, date: string): Object[] => {
+const filterByDate = (field: string, date?: string): Object[] => {
   if (!date) return []
   return [
     {
@@ -64,7 +59,31 @@ const filterByDate = (field: string, date: string): Object[] => {
   ]
 }
 
-const get = async (query: any) => {
+const filterByAge = (minAge = 0, maxAge = 0) => {
+  if (!minAge && !maxAge) return []
+
+  const today = new Date()
+  const firstAge = new Date(today)
+  firstAge.setFullYear(today.getFullYear() - minAge)
+
+  const secondAge = new Date(today)
+  secondAge.setFullYear(today.getFullYear() - maxAge)
+
+  return [
+    maxAge && {
+      birthdate: {
+        gte: secondAge.toISOString(), // Data há 26 anos atrás
+      },
+    },
+    {
+      birthdate: {
+        lte: firstAge.toISOString(), // Data há 18 anos atrás
+      },
+    },
+  ]
+}
+
+const get = async (query: UserFilter) => {
   const {
     name,
     cpf,
@@ -74,23 +93,31 @@ const get = async (query: any) => {
     updatedAt,
     limit,
     offset = 0,
+    minAge = 0,
+    maxAge,
   } = query
+
+  const where: any = {
+    AND: [
+      name && { name: { contains: name.replace(/"/g, "") } },
+      login && { login: { contains: login.replace(/"/g, "") } },
+      cpf && { cpf: { equals: cpf.replace(/"/g, "") } },
+      status && { status: { equals: status.replace(/"/g, "") } },
+      ...filterByDate("createdAt", createdAt),
+      ...filterByDate("updatedAt", updatedAt),
+      ...filterByAge(minAge, maxAge),
+    ],
+  }
+
+  const count = await prisma.user.count({ where })
+
   const users = await prisma.user.findMany({
-    where: {
-      AND: [
-        name && { name: { contains: name.replace(/"/g, "") } },
-        login && { login: { contains: login.replace(/"/g, "") } },
-        cpf && { cpf: { equals: cpf.replace(/"/g, "") } },
-        status && { status: { equals: status.replace(/"/g, "") } },
-        ...filterByDate("createdAt", createdAt),
-        ...filterByDate("updatedAt", updatedAt),
-      ],
-    },
-    skip: Number(offset),
-    take: Number(limit),
+    where,
+    skip: Number(offset ?? 0),
+    take: limit && Number(limit),
   })
 
-  return users
+  return { count, users }
 }
 
 export const UserService = {
