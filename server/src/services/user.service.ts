@@ -44,8 +44,60 @@ const update = async (id: string, data: UpdateUser) => {
   return user
 }
 
+interface Test {
+  name: string
+}
+
+const filterByDate = (field: string, date: string): Object[] => {
+  if (!date) return []
+  return [
+    {
+      [field]: {
+        gte: new Date(date), // Data de início do dia
+      },
+    },
+    {
+      [field]: {
+        lt: new Date(new Date(date).setDate(new Date(date).getDate() + 1)),
+      },
+    },
+  ]
+}
+
+const get = async (query: any) => {
+  const {
+    name,
+    cpf,
+    status,
+    login,
+    createdAt,
+    updatedAt,
+    limit,
+    offset = 0,
+  } = query
+  console.log(new Date(query.createdAt))
+  console.log(...filterByDate("updatedAt", updatedAt))
+  const users = await prisma.user.findMany({
+    where: {
+      AND: [
+        name && { name: { contains: name.replace(/"/g, "") } },
+        login && { login: { contains: login.replace(/"/g, "") } },
+        cpf && { cpf: { equals: cpf.replace(/"/g, "") } },
+        status && { status: { equals: status.replace(/"/g, "") } },
+        ...filterByDate("createdAt", createdAt),
+        ...filterByDate("updatedAt", updatedAt),
+      ],
+    },
+    skip: Number(offset),
+    take: Number(limit),
+  })
+
+  return users
+}
+
 export const UserService = {
   create,
   disable,
+  get,
   update,
 }

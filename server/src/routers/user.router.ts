@@ -7,4 +7,6 @@ export const userRoutes = async (app: FastifyInstance) => {
   app.patch("/user/disable", UserController.disable)
 
   app.put("/user/:userId", UserController.update)
+
+  app.get("/user", UserController.get)
 }
