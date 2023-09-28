@@ -1,6 +1,8 @@
+import { encoder } from "./../utils/encoder"
 import { NotFoundError } from "../error/NotFoundError"
 import { CreateUser, UpdateUser, UserFilter } from "../interfaces/"
 import prisma from "../lib/prisma"
+import { User } from "@prisma/client"
 
 const find = async (id: string) => {
   const user = await prisma.user.findFirst({ where: { id } })
@@ -10,8 +12,13 @@ const find = async (id: string) => {
   return user
 }
 
-const create = async (data: CreateUser) => {
-  const createdUser = await prisma.user.create({ data })
+const create = async (data: CreateUser): Promise<User> => {
+  const { password: planingPassword } = data
+
+  const password = await encoder.codify(planingPassword)
+
+  const createdUser = await prisma.user.create({ data: { ...data, password } })
+
   return createdUser
 }
 
@@ -115,6 +122,7 @@ const get = async (query: UserFilter) => {
     where,
     skip: Number(offset ?? 0),
     take: limit && Number(limit),
+    orderBy: { createdAt: "asc" },
   })
 
   return { count, users }
