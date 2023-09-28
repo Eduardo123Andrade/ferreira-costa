@@ -21,7 +21,7 @@ const prismaError = (
   switch (error.code) {
     case "P2002":
       const target = getTargetElement(error)
-      if (target === "cpf" || target === "login")
+      if (target === "cpf" || target === "login" || target === "email")
         return reply
           .status(httpStatus.BAD_REQUEST)
           .send({ message: `${target} already exists` })
