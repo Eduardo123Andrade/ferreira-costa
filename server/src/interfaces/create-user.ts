@@ -1,4 +1,9 @@
-import { User } from "@prisma/client";
+import { User } from "@prisma/client"
 
 export interface CreateUser
-  extends Omit<User, "id" | "createdAt" | "updatedAt"> {}
+  extends Omit<
+    User,
+    "id" | "createdAt" | "updatedAt" | "birthdate" | "status"
+  > {
+  birthdate: string
+}

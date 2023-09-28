@@ -3,4 +3,10 @@ import { UserController } from "../controllers/user.controller"
 
 export const userRoutes = async (app: FastifyInstance) => {
   app.post("/user/create", UserController.create)
+
+  app.patch("/user/disable", UserController.disable)
+
+  app.put("/user/:userId", UserController.update)
+
+  app.get("/user", UserController.get)
 }
