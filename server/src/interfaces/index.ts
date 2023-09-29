@@ -1,4 +1,7 @@
 export { CreateUser } from "./create-user"
+export { UpdatePassword } from "./update-password.interface"
 export { UpdateUser } from "./update-user"
 export { User } from "./user"
 export { UserFilter } from "./user-filter"
+export { ValidateCode } from "./validate-code.interface"
+export { ValidateQuestionInterface } from "./validate-question.interface"

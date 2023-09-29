@@ -11,16 +11,35 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid()) @map("id")
-  name       String    @map("name")
-  login      String    @unique @map("login")
-  password   String    @map("password")
-  email      String    @unique @map("email")
-  phone      String    @map("phone")
-  cpf        String    @unique @map("cpf")
-  birthdate  DateTime  @map("birthdate")
-  motherName String    @map("mother_name")
-  status     String?   @default("ACTIVE") @map("status")
-  createdAt  DateTime? @default(now()) @map("created_at")
-  updatedAt  DateTime? @updatedAt @map("updated_at")
+  id           String         @id @default(uuid()) @map("id")
+  name         String         @map("name")
+  login        String         @unique @map("login")
+  password     String         @map("password")
+  email        String         @unique @map("email")
+  phone        String         @map("phone")
+  cpf          String         @unique @map("cpf")
+  birthdate    DateTime       @map("birthdate")
+  motherName   String         @map("mother_name")
+  status       String?        @default("ACTIVE") @map("status")
+  createdAt    DateTime?      @default(now()) @map("created_at")
+  updatedAt    DateTime?      @updatedAt @map("updated_at")
+  ValidateCode ValidateCode[]
+}
+
+model PersonalInfoQuestion {
+  id           String    @id @default(uuid()) @map("id")
+  question     String    @map("question")
+  personalInfo String    @map("personal_info")
+  createdAt    DateTime? @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+}
+
+model ValidateCode {
+  id     String @id @default(uuid()) @map("id")
+  code   String @map("code")
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 }
