@@ -3,4 +3,9 @@ import { PersonalInfoQuestionController } from "../controllers"
 
 export const personalInfoQuestionRouter = async (app: FastifyInstance) => {
   app.get("/personal-info-question", PersonalInfoQuestionController.listAll)
+
+  app.post(
+    "/personal-info-answer",
+    PersonalInfoQuestionController.validateQuestion
+  )
 }

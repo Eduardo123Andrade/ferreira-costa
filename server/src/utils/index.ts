@@ -1,4 +1,5 @@
+export { encoder } from "./encoder"
 export { formatValidationError } from "./formatValidationError"
+export { generateRandomNumber } from "./random-number"
 export { validateCPF } from "./validateCpf"
 export { validateEmail } from "./validate-email"
-export { encoder } from "./encoder"
