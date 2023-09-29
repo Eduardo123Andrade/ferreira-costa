@@ -1,3 +1,4 @@
+export { validateCodeValidationSchemaBody } from "./code.validation"
 export { validateCreateUserSchemaBody } from "./create-user.validation"
 export { validateDisableUserSchemaBody } from "./disable-user.validation"
 export { validatePersonalInfoAnswerSchemaBody } from "./personal-info-answer.validation"
