@@ -1,4 +1,5 @@
 export { CreateUser } from "./create-user"
+export { Login } from "./login.interface"
 export { UpdatePassword } from "./update-password.interface"
 export { UpdateUser } from "./update-user"
 export { User } from "./user"
