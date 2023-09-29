@@ -1,4 +1,4 @@
 export interface ValidateCode {
-  userLogin: string
+  userId: string
   code: string
 }

@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { validateCodeValidationSchemaBody } from "../validations"
+import { validateCodeValidationSchemaParams } from "../validations"
 import { CodeValidationService } from "../services"
 import httpStatus from "http-status"
 
 const validate = async (request: FastifyRequest, reply: FastifyReply) => {
-  const data = validateCodeValidationSchemaBody(request.params)
+  const data = validateCodeValidationSchemaParams(request.params)
 
   await CodeValidationService.validate(data)
 

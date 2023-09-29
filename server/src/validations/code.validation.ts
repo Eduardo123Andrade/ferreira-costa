@@ -1,9 +1,9 @@
 import { z } from "zod"
 
-export const validateCodeValidationSchemaBody = (data: unknown) => {
+export const validateCodeValidationSchemaParams = (data: unknown) => {
   const bodySchema = z.object({
     code: z.string(),
-    userLogin: z.string(),
+    userId: z.string(),
   })
 
   const result = bodySchema.parse(data)

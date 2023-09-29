@@ -51,7 +51,7 @@ const validateQuestion = async (data: ValidateQuestionInterface) => {
     },
   })
 
-  return randomNumber
+  return { code: randomNumber, userId: user.id }
 }
 
 export const PersonalInfoQuestionService = {

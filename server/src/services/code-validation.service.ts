@@ -6,9 +6,7 @@ import prisma from "../lib/prisma"
 const validate = async (data: ValidateCode) => {
   const user = await prisma.user.findFirst({
     where: {
-      login: {
-        endsWith: data.userLogin,
-      },
+      id: data.userId,
     },
   })
 
@@ -16,7 +14,7 @@ const validate = async (data: ValidateCode) => {
 
   const code = await prisma.validateCode.findFirst({
     where: {
-      userId: user.id,
+      userId: data.userId,
       code: data.code,
     },
   })
