@@ -24,3 +24,11 @@ model User {
   createdAt  DateTime? @default(now()) @map("created_at")
   updatedAt  DateTime? @updatedAt @map("updated_at")
 }
+
+model PersonalInfoQuestion {
+  id           String    @id @default(uuid()) @map("id")
+  question     String    @map("question")
+  personalInfo String    @map("personal_info")
+  createdAt    DateTime? @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+}

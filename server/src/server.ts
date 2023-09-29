@@ -1,10 +1,12 @@
 import fastify from "fastify"
-import { userRoutes } from "./routers/user.router"
 import { errorHandler } from "./error/errorHandler"
+import { personalInfoQuestionRouter, userRoutes } from "./routers"
 
 const app = fastify()
 
+app.register(personalInfoQuestionRouter)
 app.register(userRoutes)
+
 app.setErrorHandler(errorHandler)
 
 app
