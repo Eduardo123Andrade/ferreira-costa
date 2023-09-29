@@ -1,6 +1,7 @@
 import fastify from "fastify"
 import { errorHandler } from "./error/errorHandler"
 import {
+  authenticationRouter,
   personalInfoQuestionRouter,
   updatePasswordRoutes,
   userRoutes,
@@ -13,6 +14,7 @@ app.register(personalInfoQuestionRouter)
 app.register(userRoutes)
 app.register(validateCodeRouter)
 app.register(updatePasswordRoutes)
+app.register(authenticationRouter)
 
 app.setErrorHandler(errorHandler)
 
