@@ -6,13 +6,16 @@ import { UserFilter } from "interfaces/UserFilter.interface"
 
 interface UsersContextState {
   isLoading: boolean
-  users: User[]
   maxLength: number
+  selectedItems: string[]
+  users: User[]
 }
 
 interface UsersContextActions {
   onNextPage: () => void
   setFilter: (filter: InputFilter) => void
+  onSelectItem: (id: string) => void
+  unselectItem: (id: string) => void
 }
 
 type UsersContextType = [state: UsersContextState, actions: UsersContextActions]
@@ -56,6 +59,7 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
   const [maxLength, setMaxLength] = useState(Number.MAX_SAFE_INTEGER)
   const [filter, updateFilter] = useState<UserFilter>(INITIAL_VALUE)
   const [offset, setOffset] = useState(0)
+  const [selectedItems, setSelectedItem] = useState<string[]>([])
 
   const { isLoading } = useGetRequest<UserResponse>(buildUrl(filter), {
     onSuccess: ({ data }) => {
@@ -88,12 +92,30 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     }
   }
 
+  const onSelectItem = (id: string) => {
+    setSelectedItem((prevState) => [...prevState, id])
+  }
+
+  const unselectItem = (id: string) => {
+    setSelectedItem((prevState) => prevState.filter((item) => item !== id))
+  }
+
+  useEffect(() => {
+    const updatedUsers = users.map((item) => {
+      return {
+        ...item,
+        selected: selectedItems.includes(item.id),
+      }
+    })
+    setUsers(updatedUsers)
+  }, [selectedItems])
+
   return (
     <UserContext.Provider
       children={children}
       value={[
-        { isLoading, users, maxLength },
-        { setFilter, onNextPage },
+        { isLoading, selectedItems, users, maxLength },
+        { setFilter, onNextPage, onSelectItem, unselectItem },
       ]}
     />
   )

@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import {
   FilterBottomSheet,
+  HomeHeader,
   Icon,
   Loading,
   Screen,
@@ -17,7 +18,10 @@ import { SPACING } from "../theme"
 
 export const HomeScreen = () => {
   const [{ colors }] = useTheme()
-  const [{ users, isLoading, maxLength }, { onNextPage }] = useUsers()
+  const [
+    { users, isLoading, maxLength },
+    { onNextPage, onSelectItem, unselectItem },
+  ] = useUsers()
   const [showFilter, setOpenFilter] = useState(false)
 
   const onOpenFilter = () => {
@@ -29,14 +33,15 @@ export const HomeScreen = () => {
   }
 
   const renderItem = ({ item }: RenderItem<User>) => {
-    const backgroundColor = colors.surface
+    const backgroundColor = item.selected ? colors.secondary : colors.surface
 
     const onPress = () => {
+      if (item.selected) return unselectItem(item.id)
       console.log("onPress")
     }
 
     const onLongPress = () => {
-      console.log("onLongPress")
+      onSelectItem(item.id)
     }
 
     return (
@@ -60,14 +65,7 @@ export const HomeScreen = () => {
 
   return (
     <Screen contentContainerStyles={styles.container}>
-      <View style={styles.header}>
-        {!!users.length && <Text bold>{`total: ${maxLength}`}</Text>}
-        <Icon
-          color={colors.textColor}
-          name="filter-list"
-          onPress={onOpenFilter}
-        />
-      </View>
+      <HomeHeader onOpenFilter={onOpenFilter} />
       <FlatList
         data={users}
         renderItem={renderItem}
@@ -86,12 +84,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 40,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: SPACING.MD,
   },
   flatList: {
     paddingBottom: SPACING.XL,
