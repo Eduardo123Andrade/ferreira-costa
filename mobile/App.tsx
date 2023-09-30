@@ -10,7 +10,7 @@ import {
   NativeStackNavigationOptions,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack"
-import { AppNavigator } from "./src/Navigator"
+import { AppNavigator } from "./src/navigators"
 
 const Stack = createNativeStackNavigator()
 
