@@ -1,18 +1,38 @@
-import { useRecoverPassword } from "../hooks"
+import { useGetRequest, useRecoverPassword } from "../hooks"
 import { Button, Screen, Text, TextInput } from "../components"
 import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { SPACING } from "../theme"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProps } from "types"
 
-interface ValidateCodeScreenProps {}
+type RootStackParamList = {
+  UpdatePasswordScreen: undefined
+}
 
-export const ValidateCodeScreen: React.FC<ValidateCodeScreenProps> = (
-  props
-) => {
+type ValidateCodeScreenNavigationProp = StackNavigationProps<RootStackParamList>
+
+export const ValidateCodeScreen = () => {
   const [code, setCode] = useState<string>()
-  const [{ code: savedCode }] = useRecoverPassword()
+  const [{ code: savedCode, userId }] = useRecoverPassword()
+  const [enabled, setEnabled] = useState(false)
 
-  const onPress = () => {}
+  const navigation = useNavigation<ValidateCodeScreenNavigationProp>()
+
+  const { isLoading } = useGetRequest(`/validate/${383826}/${userId}`, {
+    enabled,
+    onSuccess: () => {
+      setEnabled(false)
+      navigation.replace("UpdatePasswordScreen")
+    },
+    onError: ({ message }) => {
+      console.log(message)
+    },
+  })
+
+  const onPress = () => {
+    setEnabled(true)
+  }
 
   useEffect(() => {
     setCode(`${savedCode}`)
@@ -23,7 +43,13 @@ export const ValidateCodeScreen: React.FC<ValidateCodeScreenProps> = (
       <View style={styles.body}>
         <TextInput placeholder="Resposta" value={code} onChangeText={setCode} />
 
-        <Button onPress={onPress}>Avançar</Button>
+        <Button
+          disabled={!savedCode && !userId}
+          isLoading={isLoading}
+          onPress={onPress}
+        >
+          Avançar
+        </Button>
       </View>
     </Screen>
   )

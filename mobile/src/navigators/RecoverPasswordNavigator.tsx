@@ -2,7 +2,11 @@ import {
   NativeStackNavigationOptions,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack"
-import { PersonalInfoQuestionScreen, ValidateCodeScreen } from "../screens"
+import {
+  PersonalInfoQuestionScreen,
+  UpdatePasswordScreen,
+  ValidateCodeScreen,
+} from "../screens"
 import { RecoverPasswordProvider } from "../providers"
 
 const Stack = createNativeStackNavigator()
@@ -22,6 +26,10 @@ export const RecoverPasswordNavigator = () => {
         <Stack.Screen
           name="ValidateCodeScreen"
           component={ValidateCodeScreen}
+        />
+        <Stack.Screen
+          name="UpdatePasswordScreen"
+          component={UpdatePasswordScreen}
         />
       </Stack.Navigator>
     </RecoverPasswordProvider>
