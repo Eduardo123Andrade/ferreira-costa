@@ -16,6 +16,7 @@ import { SPACING } from "../theme"
 type RootStackParamList = {
   AuthenticatedNavigator: undefined
   RecoverPasswordNavigator: undefined
+  AddUserScreen: undefined
 }
 
 type LoginScreenNavigationProp = StackNavigationProps<RootStackParamList>
@@ -42,7 +43,7 @@ export const LoginScreen = () => {
     mutate(data)
   }
 
-  const goToSingIn = () => {}
+  const goToSingIn = () => navigation.navigate("AddUserScreen")
 
   const goToRecoverPassword = () =>
     navigation.navigate("RecoverPasswordNavigator")
