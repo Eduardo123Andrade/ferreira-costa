@@ -26,7 +26,7 @@ const validateQuestion = async (data: ValidateQuestionInterface) => {
   const fields = {
     CPF: "cpf",
     EMAIL: "email",
-    LOGIN: "logins",
+    PHONE: "PHONE",
   }
 
   const field = fields[personalInfo]

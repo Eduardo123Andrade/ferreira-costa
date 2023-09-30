@@ -1,1 +1,1 @@
-export type PersonalInfo = "CPF" | "EMAIL" | "LOGIN"
+export type PersonalInfo = "CPF" | "EMAIL" | "PHONE"
