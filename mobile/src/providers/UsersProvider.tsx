@@ -3,6 +3,7 @@ import { User } from "../interfaces/User.interface"
 import { useGetRequest } from "../hooks/useGetRequest"
 import { InputFilter } from "../interfaces/InputFilter.interface"
 import { UserFilter } from "interfaces/UserFilter.interface"
+import { usePutRequest } from "hooks"
 
 interface UsersContextState {
   isLoading: boolean
@@ -13,8 +14,9 @@ interface UsersContextState {
 
 interface UsersContextActions {
   onNextPage: () => void
-  setFilter: (filter: InputFilter) => void
   onSelectItem: (id: string) => void
+  resetState: () => void
+  setFilter: (filter: InputFilter) => void
   unselectItem: (id: string) => void
 }
 
@@ -52,6 +54,7 @@ function buildUrl(requestParams: UserFilter) {
 
 const INITIAL_VALUE: UserFilter = {
   limit: 6,
+  status: "ACTIVE",
 }
 
 export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
@@ -61,7 +64,7 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
   const [offset, setOffset] = useState(0)
   const [selectedItems, setSelectedItem] = useState<string[]>([])
 
-  const { isLoading } = useGetRequest<UserResponse>(buildUrl(filter), {
+  const { isLoading, refetch } = useGetRequest<UserResponse>(buildUrl(filter), {
     onSuccess: ({ data }) => {
       setMaxLength(data.count)
       if (!offset) {
@@ -100,6 +103,16 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     setSelectedItem((prevState) => prevState.filter((item) => item !== id))
   }
 
+  const resetState = () => {
+    setSelectedItem([])
+    setOffset(0)
+    updateFilter({
+      ...INITIAL_VALUE,
+      offset: 0,
+    })
+    refetch()
+  }
+
   useEffect(() => {
     const updatedUsers = users.map((item) => {
       return {
@@ -115,7 +128,7 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
       children={children}
       value={[
         { isLoading, selectedItems, users, maxLength },
-        { setFilter, onNextPage, onSelectItem, unselectItem },
+        { setFilter, onNextPage, onSelectItem, unselectItem, resetState },
       ]}
     />
   )

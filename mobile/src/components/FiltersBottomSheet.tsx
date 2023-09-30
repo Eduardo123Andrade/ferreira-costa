@@ -9,6 +9,7 @@ import { Text } from "./Text"
 import { DatePicker } from "./DatePicker"
 import { Icon } from "./Icon"
 import { useUsers } from "../hooks"
+import { UserStatus } from "../types"
 
 interface FilterBottomSheetProps {
   visible: boolean
@@ -23,7 +24,7 @@ const statusList = [
 ]
 
 export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
-  const [selectedStatus, setSelectedStatus] = useState<string>()
+  const [selectedStatus, setSelectedStatus] = useState<UserStatus>("ACTIVE")
   const [name, setName] = useState<string>()
   const [cpf, setCpf] = useState<string>()
   const [login, setLogin] = useState<string>()
@@ -37,7 +38,7 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
 
   const [, { setFilter }] = useUsers()
 
-  const onValueChange = (value: string) => {
+  const onValueChange = (value: UserStatus) => {
     setSelectedStatus(value)
   }
 
