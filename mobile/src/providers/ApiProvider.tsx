@@ -12,7 +12,6 @@ interface ApiProvider {
 }
 
 export const ApiProvider: React.FC<ApiProvider> = ({ children }) => {
-  // const [{ user }] = useUser()
   const API = useMemo(
     () =>
       Axios.create({
@@ -20,17 +19,6 @@ export const ApiProvider: React.FC<ApiProvider> = ({ children }) => {
       }),
     []
   )
-
-  // if (user?.token)
-  API.interceptors.request.use((config) => {
-    console.log(config.baseURL)
-    console.log(config.url)
-    // return config
-    //   if (config.url !== "/auth/login" && config.url !== "/auth/sign-up") {
-    //     config.headers["Authorization"] = `Bearer ${user.token}`
-    //   }
-    return config
-  })
 
   return <ApiContext.Provider children={children} value={{ API }} />
 }

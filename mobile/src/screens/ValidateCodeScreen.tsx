@@ -22,7 +22,7 @@ export const ValidateCodeScreen = () => {
 
   const navigation = useNavigation<ValidateCodeScreenNavigationProp>()
 
-  const { isLoading } = useGetRequest(`/validate/${383826}/${userId}`, {
+  const { isLoading } = useGetRequest(`/validate/${savedCode}/${userId}`, {
     enabled,
     onSuccess: () => {
       setEnabled(false)
