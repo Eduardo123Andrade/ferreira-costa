@@ -29,7 +29,6 @@ export const AddUserScreen = () => {
   )
 
   const onSubmit = (data: UserValidationForm) => {
-    console.log(data)
     mutate(data)
   }
 

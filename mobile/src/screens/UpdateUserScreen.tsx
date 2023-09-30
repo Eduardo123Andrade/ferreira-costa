@@ -25,8 +25,6 @@ export const UpdateUserScreen = () => {
   const navigation = useNavigation()
   const [{ selectedUser }] = useUsers()
 
-  console.log(selectedUser.id)
-
   const { mutate, isLoading } = usePutRequest(`/user/${selectedUser.id}`, {
     onSuccess: () => {
       navigation.goBack()
