@@ -1,20 +1,45 @@
-import React from "react"
+import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { SPACING } from "../theme"
-import { useTheme, useUsers } from "../hooks"
+import { usePutRequest, useTheme, useUsers } from "../hooks"
 import { Text } from "./Text"
 import { Icon } from "./Icon"
+import { Loading } from "./Loading"
 
 interface HomeHeaderProps {
   onOpenFilter: () => void
 }
 
+interface Variables {
+  userIds: string[]
+}
+
 export const HomeHeader: React.FC<HomeHeaderProps> = ({ onOpenFilter }) => {
-  const [{ users, maxLength, selectedItems }] = useUsers()
+  const [{ users, maxLength, selectedItems }, { resetState }] = useUsers()
+  const [loadingDelete, setLoadingDelete] = useState(false)
   const [{ colors }] = useTheme()
 
+  const { mutate, isLoading } = usePutRequest<any, Variables>(
+    "/users/disable",
+    {
+      onSuccess: () => {
+        resetState()
+        setLoadingDelete(false)
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message)
+      },
+    }
+  )
+
+  const onDeleteAll = () => {
+    setLoadingDelete(true)
+    const userIds = users.map((item) => item.id)
+    mutate({ userIds })
+  }
+
   const onDelete = () => {
-    console.log("???")
+    mutate({ userIds: selectedItems })
   }
 
   return (
@@ -30,12 +55,33 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({ onOpenFilter }) => {
         </View>
       )}
 
-      {!!selectedItems.length && (
+      {
         <View style={styles.headerLine}>
-          {!!users.length && (
-            <Text>{`Selecionados: ${selectedItems.length}`}</Text>
+          <Text>Deletar todos</Text>
+          {loadingDelete ? (
+            <View>
+              <Loading size={24} />
+            </View>
+          ) : (
+            <Icon
+              color={colors.textColor}
+              name="delete"
+              onPress={onDeleteAll}
+            />
           )}
-          <Icon color={colors.textColor} name="delete" onPress={onDelete} />
+        </View>
+      }
+
+      {!!selectedItems.length && !loadingDelete && (
+        <View style={styles.headerLine}>
+          <Text>{`Selecionados: ${selectedItems.length}`}</Text>
+          {isLoading ? (
+            <View>
+              <Loading size={24} />
+            </View>
+          ) : (
+            <Icon color={colors.textColor} name="delete" onPress={onDelete} />
+          )}
         </View>
       )}
     </View>

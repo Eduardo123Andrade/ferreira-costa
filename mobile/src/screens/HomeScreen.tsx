@@ -34,9 +34,11 @@ export const HomeScreen = () => {
 
   const renderItem = ({ item }: RenderItem<User>) => {
     const backgroundColor = item.selected ? colors.secondary : colors.surface
-
+    const hasSelected = !!users.find((item) => item.selected)
     const onPress = () => {
       if (item.selected) return unselectItem(item.id)
+      if (hasSelected) return onSelectItem(item.id)
+
       console.log("onPress")
     }
 
