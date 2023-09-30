@@ -40,11 +40,10 @@ export const LoginScreen = () => {
     mutate(data)
   }
 
-  const goToLogin = () => {}
-
   const goToSingIn = () => {}
 
-  const goToRecoverPassword = () => {}
+  const goToRecoverPassword = () =>
+    navigation.navigate("RecoverPasswordNavigator")
 
   return (
     <Screen contentContainerStyles={styles.container}>

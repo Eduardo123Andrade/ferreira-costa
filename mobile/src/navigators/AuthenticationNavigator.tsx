@@ -14,7 +14,7 @@ const screenOptions: NativeStackNavigationOptions = {
 export const AuthenticationNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen
         name="RecoverPasswordNavigator"
         component={RecoverPasswordNavigator}
