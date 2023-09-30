@@ -1,11 +1,16 @@
-import { useGetRequest, usePostRequest } from "../hooks"
-import { Button, Screen, Select, Text, TextInput } from "../components"
+import { useNavigation } from "@react-navigation/native"
 import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
+import { Button, Screen, Select, TextInput } from "../components"
+import {
+  useGetRequest,
+  usePostRequest,
+  useRecoverPassword,
+  useResponseModal,
+} from "../hooks"
+import { SimpleModal } from "../modals"
 import { SPACING } from "../theme"
-import { useRecoverPassword } from "../hooks"
-import { StackNavigationProps } from "types"
-import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProps } from "../types"
 
 interface QuestionOption {
   id: string
@@ -28,7 +33,8 @@ export const PersonalInfoQuestionScreen = () => {
   const [questionOptions, setQuestionOptions] = useState<QuestionOptions[]>([])
   const [questionId, setQuestionId] = useState<string>()
   const [answer, setAnswer] = useState<string>()
-
+  const [{ show, message }, { startModalResponse, resetState }] =
+    useResponseModal()
   const [, { setData }] = useRecoverPassword()
 
   const navigation = useNavigation<PersonalInfoQuestionScreenNavigationProp>()
@@ -52,7 +58,7 @@ export const PersonalInfoQuestionScreen = () => {
       navigation.navigate("ValidateCodeScreen")
     },
     onError: ({ response }) => {
-      console.log(response.data.message)
+      startModalResponse(response.data.message)
     },
   })
 
@@ -83,6 +89,11 @@ export const PersonalInfoQuestionScreen = () => {
 
         <Button onPress={onPress}>Avançar</Button>
       </View>
+      <SimpleModal
+        message={message}
+        visible={show}
+        onRequestClose={resetState}
+      />
     </Screen>
   )
 }

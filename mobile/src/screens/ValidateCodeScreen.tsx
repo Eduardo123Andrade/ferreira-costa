@@ -1,10 +1,11 @@
-import { useGetRequest, useRecoverPassword } from "../hooks"
+import { useGetRequest, useRecoverPassword, useResponseModal } from "../hooks"
 import { Button, Screen, Text, TextInput } from "../components"
 import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { SPACING } from "../theme"
 import { useNavigation } from "@react-navigation/native"
-import { StackNavigationProps } from "types"
+import { StackNavigationProps } from "../types"
+import { SimpleModal } from "../modals"
 
 type RootStackParamList = {
   UpdatePasswordScreen: undefined
@@ -16,6 +17,8 @@ export const ValidateCodeScreen = () => {
   const [code, setCode] = useState<string>()
   const [{ code: savedCode, userId }] = useRecoverPassword()
   const [enabled, setEnabled] = useState(false)
+  const [{ show, message }, { startModalResponse, resetState }] =
+    useResponseModal()
 
   const navigation = useNavigation<ValidateCodeScreenNavigationProp>()
 
@@ -26,7 +29,7 @@ export const ValidateCodeScreen = () => {
       navigation.replace("UpdatePasswordScreen")
     },
     onError: ({ message }) => {
-      console.log(message)
+      startModalResponse(message)
     },
   })
 
@@ -51,6 +54,11 @@ export const ValidateCodeScreen = () => {
           Avançar
         </Button>
       </View>
+      <SimpleModal
+        message={message}
+        visible={show}
+        onRequestClose={resetState}
+      />
     </Screen>
   )
 }

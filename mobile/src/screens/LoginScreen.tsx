@@ -1,16 +1,17 @@
+import { useNavigation } from "@react-navigation/native"
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import { StackNavigationProps } from "types"
+import { Button, Screen, Text, TextInput } from "../components"
 import {
   useLoginValidationForm,
   usePostRequest,
+  useResponseModal,
   useTheme,
-  useUserValidationForm,
 } from "../hooks"
-import { Button, Screen, Text, TextInput } from "../components"
-import React from "react"
-import { StyleSheet, View } from "react-native"
-import { SPACING } from "../theme"
 import { LoginValidationForm } from "../interfaces"
-import { useNavigation } from "@react-navigation/native"
-import { StackNavigationProps } from "types"
+import { SimpleModal } from "../modals"
+import { SPACING } from "../theme"
 
 type RootStackParamList = {
   AuthenticatedNavigator: undefined
@@ -21,14 +22,15 @@ type LoginScreenNavigationProp = StackNavigationProps<RootStackParamList>
 
 export const LoginScreen = () => {
   const [{ colors }] = useTheme()
+  const [{ show, message }, { startModalResponse, resetState }] =
+    useResponseModal()
   const navigation = useNavigation<LoginScreenNavigationProp>()
-
   const { mutate, isLoading } = usePostRequest("/login", {
     onSuccess: () => {
       navigation.replace("AuthenticatedNavigator")
     },
     onError: ({ response }) => {
-      console.log(response.data.message)
+      startModalResponse(response.data.message)
     },
   })
 
@@ -69,6 +71,11 @@ export const LoginScreen = () => {
           </Text>
         </View>
       </View>
+      <SimpleModal
+        message={message}
+        visible={show}
+        onRequestClose={resetState}
+      />
     </Screen>
   )
 }

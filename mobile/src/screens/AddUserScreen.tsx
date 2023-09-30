@@ -3,18 +3,15 @@ import React from "react"
 import { StyleSheet } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import { Screen, UserForm } from "../components/"
-import { usePostRequest } from "../hooks"
+import { usePostRequest, useResponseModal } from "../hooks"
 import { UserValidationForm } from "../interfaces"
 import { SPACING } from "../theme"
-
-const statusList = [
-  { label: "Ativo", value: "ACTIVE" },
-  { label: "Inativo", value: "INACTIVE" },
-  { label: "Bloqueado", value: "BLOCKED" },
-]
+import { SimpleModal } from "../modals"
 
 export const AddUserScreen = () => {
   const navigation = useNavigation()
+  const [{ show, message }, { startModalResponse, resetState }] =
+    useResponseModal()
 
   const { mutate, isLoading } = usePostRequest<any, UserValidationForm>(
     "/user/create",
@@ -23,7 +20,7 @@ export const AddUserScreen = () => {
         navigation.goBack()
       },
       onError: ({ response }) => {
-        console.log(response.data.message)
+        startModalResponse(response.data.message)
       },
     }
   )
@@ -37,6 +34,11 @@ export const AddUserScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
         <UserForm loading={isLoading} onSubmit={onSubmit} />
       </ScrollView>
+      <SimpleModal
+        message={message}
+        visible={show}
+        onRequestClose={resetState}
+      />
     </Screen>
   )
 }
