@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
-import { SPACING } from "../theme"
+import { SPACING } from "../../theme"
 import { BottomSheet } from "./BottomSheet"
-import { Button } from "./Button"
-import { TextInput } from "./TextInput"
-import { Select } from "./Select"
-import { Text } from "./Text"
-import { DatePicker } from "./DatePicker"
-import { Icon } from "./Icon"
-import { useUsers } from "../hooks"
-import { UserStatus } from "../types"
+import { Button } from "../Button"
+import { TextInput } from "../TextInput"
+import { Select } from "../Select"
+import { Text } from "../Text"
+import { DatePicker } from "../DatePicker"
+import { Icon } from "../Icon"
+import { useUsers } from "../../hooks"
+import { UserStatus } from "../../types"
 
 interface FilterBottomSheetProps {
   visible: boolean
@@ -17,7 +17,6 @@ interface FilterBottomSheetProps {
 }
 
 const statusList = [
-  { label: "Selecione", value: undefined },
   { label: "Ativo", value: "ACTIVE" },
   { label: "Inativo", value: "INACTIVE" },
   { label: "Bloqueado", value: "BLOCKED" },

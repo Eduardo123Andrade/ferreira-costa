@@ -1,4 +1,4 @@
-import { useTheme } from "../hooks"
+import { useTheme } from "../../hooks"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import {
   Animated,
@@ -10,7 +10,7 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native"
-import { SPACING } from "../theme"
+import { SPACING } from "../../theme"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("screen")
 const BORDER_RADIUS = 16

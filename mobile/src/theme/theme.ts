@@ -5,6 +5,7 @@ export interface Theme {
   buttonLabel: string
   disabled: string
   error: string
+  full: string
   lightIcon: string
   placeholder: string
   primary: string
@@ -19,6 +20,7 @@ const dark: Theme = {
   background: colors.gray[900],
   buttonLabel: colors.gray[100],
   disabled: colors.blue[300],
+  full: "#000",
   error: colors.red[600],
   lightIcon: colors.gray[400],
   placeholder: colors.gray[700],

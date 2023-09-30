@@ -20,10 +20,12 @@ export const Select: React.FC<SelectProps> = ({
 }: SelectProps) => {
   const [{ colors }] = useTheme()
 
+  const backgroundColor = colors.surface
+
   const renderItem = (item: SelectItem) => (
     <Picker.Item
       key={item.label}
-      style={{ backgroundColor: colors.surface }}
+      style={{ backgroundColor }}
       color={colors.textColor}
       label={item.label}
       value={item.value}
@@ -32,6 +34,7 @@ export const Select: React.FC<SelectProps> = ({
 
   return (
     <Picker
+      style={{ backgroundColor }}
       mode="dropdown"
       selectedValue={selectedValue}
       onValueChange={onValueChange}

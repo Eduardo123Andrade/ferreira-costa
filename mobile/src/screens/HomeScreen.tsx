@@ -1,31 +1,43 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import {
   FilterBottomSheet,
   HomeHeader,
-  Icon,
   Loading,
   Screen,
   Separator,
-  Text,
   Touchable,
   UserItemList,
 } from "../components"
 import { useTheme, useUsers } from "../hooks"
 import { RenderItem, User } from "../interfaces"
 import { SPACING } from "../theme"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProps } from "../types"
+
+type RootStackParamList = {
+  AddUserScreen: undefined
+}
+
+type LoginScreenNavigationProp = StackNavigationProps<RootStackParamList>
 
 export const HomeScreen = () => {
   const [{ colors }] = useTheme()
   const [
-    { users, isLoading, maxLength },
-    { onNextPage, onSelectItem, unselectItem },
+    { users, isLoading },
+    { onNextPage, onSelectItem, unselectItem, resetState },
   ] = useUsers()
   const [showFilter, setOpenFilter] = useState(false)
 
+  const navigation = useNavigation<LoginScreenNavigationProp>()
+
   const onOpenFilter = () => {
     setOpenFilter(true)
+  }
+
+  const goToAddScreen = () => {
+    navigation.navigate("AddUserScreen")
   }
 
   const onRequestClose = () => {
@@ -55,6 +67,16 @@ export const HomeScreen = () => {
     )
   }
 
+  useEffect(
+    () =>
+      navigation.addListener("focus", () => {
+        if (users.length) {
+          resetState()
+        }
+      }),
+    [navigation, users, resetState]
+  )
+
   const RenderFooter = () => {
     if (!isLoading) return <></>
 
@@ -67,7 +89,7 @@ export const HomeScreen = () => {
 
   return (
     <Screen contentContainerStyles={styles.container}>
-      <HomeHeader onOpenFilter={onOpenFilter} />
+      <HomeHeader onOpenAdd={goToAddScreen} onOpenFilter={onOpenFilter} />
       <FlatList
         data={users}
         renderItem={renderItem}
