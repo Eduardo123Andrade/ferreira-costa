@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import {
+  AddUserBottomSheet,
   FilterBottomSheet,
   HomeHeader,
   Icon,
@@ -23,13 +24,19 @@ export const HomeScreen = () => {
     { onNextPage, onSelectItem, unselectItem },
   ] = useUsers()
   const [showFilter, setOpenFilter] = useState(false)
+  const [showAdd, setShowAdd] = useState(false)
 
   const onOpenFilter = () => {
     setOpenFilter(true)
   }
 
+  const onOpenAdd = () => {
+    setShowAdd(true)
+  }
+
   const onRequestClose = () => {
     setOpenFilter(false)
+    setShowAdd(false)
   }
 
   const renderItem = ({ item }: RenderItem<User>) => {
@@ -65,8 +72,6 @@ export const HomeScreen = () => {
     )
   }
 
-  const onOpenAdd = () => {}
-
   return (
     <Screen contentContainerStyles={styles.container}>
       <HomeHeader onOpenAdd={onOpenAdd} onOpenFilter={onOpenFilter} />
@@ -80,6 +85,7 @@ export const HomeScreen = () => {
         contentContainerStyle={styles.flatList}
       />
       <FilterBottomSheet visible={showFilter} onRequestClose={onRequestClose} />
+      <AddUserBottomSheet visible={showAdd} onRequestClose={onRequestClose} />
     </Screen>
   )
 }

@@ -17,6 +17,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   return (
     <View style={styles.container}>
       <NativeTextInput
+        autoComplete="name"
         placeholderTextColor={colors.placeholder}
         style={textColor}
         {...props}
