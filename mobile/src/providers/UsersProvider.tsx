@@ -5,10 +5,12 @@ import { InputFilter } from "../interfaces/InputFilter.interface"
 import { UserFilter } from "interfaces/UserFilter.interface"
 
 interface UsersContextState {
+  isLoading: boolean
   users: User[]
 }
 
 interface UsersContextActions {
+  onNextPage: () => void
   setFilter: (filter: InputFilter) => void
 }
 
@@ -49,16 +51,20 @@ const INITIAL_VALUE: UserFilter = {
 }
 
 export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
-  const [users, setUsers] = useState<User[]>()
+  const [users, setUsers] = useState<User[]>([])
+  const [maxLength, setMaxLength] = useState(Number.MAX_SAFE_INTEGER)
   const [filter, updateFilter] = useState<UserFilter>(INITIAL_VALUE)
   const [offset, setOffset] = useState(0)
 
-  console.log(buildUrl(filter))
-
-  useGetRequest<UserResponse>(buildUrl(filter), {
-    onSuccess: ({ data, request }) => {
-      console.log(JSON.stringify({ URL: request.responseURL }, null, 2))
-      setUsers(data.users)
+  const { isLoading } = useGetRequest<UserResponse>(buildUrl(filter), {
+    onSuccess: ({ data }) => {
+      setMaxLength(data.count)
+      if (!offset) {
+        setUsers(data.users)
+        setOffset(data.users.length)
+        return
+      }
+      setUsers((prevState) => [...prevState, ...data.users])
       setOffset((prevState) => prevState + data.users.length)
     },
   })
@@ -72,10 +78,22 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     })
   }
 
+  const onNextPage = () => {
+    if (users.length < maxLength) {
+      updateFilter({
+        ...filter,
+        offset,
+      })
+    }
+  }
+
   return (
     <UserContext.Provider
       children={children}
-      value={[{ users }, { setFilter }]}
+      value={[
+        { isLoading, users },
+        { setFilter, onNextPage },
+      ]}
     />
   )
 }

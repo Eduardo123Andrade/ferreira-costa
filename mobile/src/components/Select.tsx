@@ -1,7 +1,6 @@
 import { Picker } from "@react-native-picker/picker"
 import { useTheme } from "../hooks"
 import React from "react"
-import { StyleSheet } from "react-native"
 
 interface SelectItem {
   label: string
@@ -23,7 +22,7 @@ export const Select: React.FC<SelectProps> = ({
 
   const renderItem = (item: SelectItem) => (
     <Picker.Item
-      key={item.value}
+      key={item.label}
       style={{ backgroundColor: colors.surface }}
       color={colors.textColor}
       label={item.label}
@@ -41,7 +40,3 @@ export const Select: React.FC<SelectProps> = ({
     </Picker>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {},
-})
