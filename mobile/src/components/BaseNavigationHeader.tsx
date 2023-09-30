@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { Icon } from "./Icon"
 import { useNavigation } from "@react-navigation/native"
-import { SPACING } from "theme"
+import { SPACING } from "../theme"
 import { Text } from "./Text"
-import { useTheme } from "hooks"
+import { useTheme } from "../hooks"
 
 interface BaseNavigationHeaderProps {
   iconColor?: string

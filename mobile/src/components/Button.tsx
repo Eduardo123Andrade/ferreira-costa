@@ -7,8 +7,8 @@ import {
 } from "react-native"
 import { Text } from "./Text"
 import { Touchable } from "./Touchable"
-import { SPACING } from "theme"
-import { useTheme } from "hooks"
+import { SPACING } from "../theme"
+import { useTheme } from "../hooks"
 
 interface ButtonProps extends TouchableHighlightProps {
   children: string

@@ -5,8 +5,8 @@ import {
   TextInputProps as NativeTextInputProps,
   View,
 } from "react-native"
-import { SPACING } from "theme"
-import { useTheme } from "hooks"
+import { SPACING } from "../theme"
+import { useTheme } from "../hooks"
 
 interface TextInputProps extends NativeTextInputProps {}
 

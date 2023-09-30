@@ -1,7 +1,13 @@
-import { useTheme } from "hooks"
+import { useTheme } from "../hooks"
 import React from "react"
-import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import {
+  SafeAreaView,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewProps,
+  ViewStyle,
+} from "react-native"
 
 interface ScreenProps extends ViewProps {
   contentContainerStyles?: StyleProp<ViewStyle>
