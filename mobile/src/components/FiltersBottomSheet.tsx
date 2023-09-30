@@ -174,6 +174,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: SPACING.SM,
-    // flex: 5,
   },
 })
