@@ -32,7 +32,7 @@ export const UserItemList: React.FC<UserItemListProps> = ({ user }) => {
       style={[
         styles.container,
         {
-          backgroundColor: colors.surface,
+          // backgroundColor: colors.surface,
         },
       ]}
     >

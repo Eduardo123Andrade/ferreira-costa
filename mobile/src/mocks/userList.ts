@@ -56,4 +56,15 @@ export const USER_LIST: User[] = [
     phone: "00000000000",
     status: "BLOCKED",
   },
+  {
+    id: "6",
+    name: "Eduardo Andrade 6",
+    birthdate: new Date(),
+    cpf: "00000000000",
+    email: "email@email.com",
+    login: "LordStark",
+    motherName: "nome da mae",
+    phone: "00000000000",
+    status: "BLOCKED",
+  },
 ]
