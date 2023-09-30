@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProps } from "types"
 
 type RootStackParamList = {
-  HomeScreen: undefined
+  AuthenticatedNavigator: undefined
   RecoverPasswordNavigator: undefined
 }
 
@@ -25,7 +25,7 @@ export const LoginScreen = () => {
 
   const { mutate, isLoading } = usePostRequest("/login", {
     onSuccess: () => {
-      navigation.replace("HomeScreen")
+      navigation.replace("AuthenticatedNavigator")
     },
     onError: ({ response }) => {
       console.log(response.data.message)
