@@ -22,44 +22,117 @@ const statusList = [
 
 export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
   const [selectedStatus, setSelectedStatus] = useState<string>()
+  const [name, setName] = useState<string>()
+  const [cpf, setCpf] = useState<string>()
+  const [login, setLogin] = useState<string>()
+  const [biggerThen, setBiggerThen] = useState<number>()
+  const [lessThan, setLessThan] = useState<number>()
+
+  const [createdAt, setCreatedAt] = useState<Date>()
+  const [updatedAt, setUpdatedAt] = useState<Date>()
+  const [openCreatedAtDatePicker, setOpenCreatedAtDatePicker] = useState(false)
+  const [openUpdateAtDatePicker, setOpenUpdateAtDatePicker] = useState(false)
 
   const onValueChange = (value: string) => {
     setSelectedStatus(value)
   }
 
+  const onOpenCreatedAtDatePicker = () => {
+    setOpenCreatedAtDatePicker(true)
+  }
+
+  const onSelectCreatedAtDatePicker = (date: Date) => {
+    setOpenCreatedAtDatePicker(false)
+    setCreatedAt(date)
+  }
+
+  const onOpenUpdatedAtDatePicker = () => {
+    setOpenUpdateAtDatePicker(true)
+  }
+
+  const onSelectUpdatedAtDatePicker = (date: Date) => {
+    setOpenUpdateAtDatePicker(false)
+    setUpdatedAt(date)
+  }
+
+  const onSetBiggerThen = (text: string) => {
+    setBiggerThen(Number(text ?? 0))
+  }
+
+  const onSetLessThan = (text: string) => {
+    setLessThan(Number(text ?? 0))
+  }
+
   useEffect(() => {
-    console.log({ selectedStatus })
-  }, [selectedStatus])
+    console.log({
+      biggerThen,
+      lessThan,
+      name,
+      cpf,
+      login,
+      selectedStatus,
+      createdAt,
+      updatedAt,
+    })
+  }, [
+    biggerThen,
+    lessThan,
+    name,
+    cpf,
+    login,
+    selectedStatus,
+    createdAt,
+    updatedAt,
+  ])
 
   return (
     <BottomSheet {...props}>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Nome" />
-          <TextInput keyboardType="numeric" placeholder="CPF" />
-          <TextInput placeholder="Login" />
+          <TextInput value={name} onChangeText={setName} placeholder="Nome" />
+          <TextInput
+            value={cpf}
+            onChangeText={setCpf}
+            keyboardType="numeric"
+            placeholder="CPF"
+          />
+          <TextInput
+            value={login}
+            onChangeText={setLogin}
+            placeholder="Login"
+          />
 
           <View style={styles.calendarContainer}>
             <View style={styles.line}>
               <Text>Maior que:</Text>
-              <TextInput keyboardType="numeric" placeholder="00" />
+              <TextInput
+                value={`${biggerThen ?? 0}`}
+                onChangeText={onSetBiggerThen}
+                keyboardType="numeric"
+                placeholder="00"
+              />
             </View>
 
             <View style={styles.line}>
               <Text>Menor que:</Text>
-              <TextInput keyboardType="numeric" placeholder="00" />
+              <TextInput
+                value={`${lessThan ?? 0}`}
+                onChangeText={onSetLessThan}
+                keyboardType="numeric"
+                placeholder="00"
+              />
             </View>
           </View>
 
           <View style={styles.calendarContainer}>
             <View style={styles.line}>
               <Text>Criado em:</Text>
-              <Icon name="calendar-today" onPress={console.log} />
+              <Icon name="calendar-today" onPress={onOpenCreatedAtDatePicker} />
             </View>
 
             <View style={styles.line}>
               <Text>Atualizado em:</Text>
-              <Icon name="calendar-today" onPress={console.log} />
+              <Icon name="calendar-today" onPress={onOpenUpdatedAtDatePicker} />
             </View>
           </View>
 
@@ -75,7 +148,12 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
 
         <Button>Buscar</Button>
 
-        {/* <DatePicker /> */}
+        {openCreatedAtDatePicker && (
+          <DatePicker selectDate={onSelectCreatedAtDatePicker} />
+        )}
+        {openUpdateAtDatePicker && (
+          <DatePicker selectDate={onSelectUpdatedAtDatePicker} />
+        )}
       </View>
     </BottomSheet>
   )

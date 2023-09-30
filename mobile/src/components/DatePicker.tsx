@@ -1,20 +1,21 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 
-interface DatePickerProps {}
+interface DatePickerProps {
+  selectDate: (date: Date) => void
+}
 
-export const DatePicker: React.FC<DatePickerProps> = (props) => {
+export const DatePicker: React.FC<DatePickerProps> = ({ selectDate }) => {
+  const onChange = (_: any, date: Date) => {
+    selectDate(date)
+  }
+
   return (
     <DateTimePicker
-      // onChange={(event) => console.log({ event })}
-      onChange={(_, date) => console.log(date)}
+      onAccessibilityEscape={console.log}
+      onChange={onChange}
       display="calendar"
       value={new Date()}
     />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {},
-})
