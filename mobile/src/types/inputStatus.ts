@@ -1,0 +1,1 @@
+export type InputStatus = 'IDLE' | 'SUCCESS' | 'ERROR'
