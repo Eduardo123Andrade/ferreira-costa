@@ -5,7 +5,7 @@ import {
 // import { AuthenticatedNavigator } from './AuthenticatedNavigator'
 // import { AuthenticationNavigator } from 'authentication'
 // import { useUser } from "hooks"
-import { AddUserScreen, HomeScreen } from "./screens"
+import { AddUserScreen, HomeScreen, UpdateUserScreen } from "./screens"
 
 const Stack = createNativeStackNavigator()
 
@@ -19,12 +19,11 @@ export const AppNavigator = () => {
   // const initialRouteName = !!user ? "AuthenticatedNavigator" : "Authentication"
 
   return (
-    <Stack.Navigator
-      // initialRouteName="AddUserScreen"
-      screenOptions={screenOptions}
-    >
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="AddUserScreen" component={AddUserScreen} />
+      <Stack.Screen name="UpdateUserScreen" component={UpdateUserScreen} />
+
       {/* {!user ? (
         <Stack.Screen
           name="Authentication"

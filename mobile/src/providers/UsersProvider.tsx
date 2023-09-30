@@ -3,18 +3,19 @@ import { User } from "../interfaces/User.interface"
 import { useGetRequest } from "../hooks/useGetRequest"
 import { InputFilter } from "../interfaces/InputFilter.interface"
 import { UserFilter } from "interfaces/UserFilter.interface"
-import { usePutRequest } from "hooks"
 
 interface UsersContextState {
   isLoading: boolean
   maxLength: number
   selectedItems: string[]
+  selectedUser: User
   users: User[]
 }
 
 interface UsersContextActions {
   onNextPage: () => void
   onSelectItem: (id: string) => void
+  onSelectUser: (user: User) => void
   resetState: () => void
   setFilter: (filter: InputFilter) => void
   unselectItem: (id: string) => void
@@ -63,6 +64,7 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
   const [filter, updateFilter] = useState<UserFilter>(INITIAL_VALUE)
   const [offset, setOffset] = useState(0)
   const [selectedItems, setSelectedItem] = useState<string[]>([])
+  const [selectedUser, setSelectedUser] = useState<User>()
 
   const { isLoading, refetch } = useGetRequest<UserResponse>(buildUrl(filter), {
     onSuccess: ({ data }) => {
@@ -113,6 +115,10 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     refetch()
   }
 
+  const onSelectUser = (user: User) => {
+    setSelectedUser(user)
+  }
+
   useEffect(() => {
     const updatedUsers = users.map((item) => {
       return {
@@ -127,8 +133,21 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     <UserContext.Provider
       children={children}
       value={[
-        { isLoading, selectedItems, users, maxLength },
-        { setFilter, onNextPage, onSelectItem, unselectItem, resetState },
+        {
+          isLoading,
+          maxLength,
+          selectedItems,
+          selectedUser,
+          users,
+        },
+        {
+          onNextPage,
+          onSelectItem,
+          onSelectUser,
+          resetState,
+          setFilter,
+          unselectItem,
+        },
       ]}
     />
   )

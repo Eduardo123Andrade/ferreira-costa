@@ -13,6 +13,7 @@ export { StatusLine } from "./StatusLine"
 export { Text } from "./Text"
 export { TextInput } from "./TextInput"
 export { Touchable } from "./Touchable"
+export { UserForm } from "./UserForm"
 export { UserItemList } from "./UserItemList"
 
 export * from "./bottomSheet"

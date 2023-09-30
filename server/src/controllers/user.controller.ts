@@ -28,9 +28,11 @@ const disable = async (request: FastifyRequest, reply: FastifyReply) => {
 const update = async (request: FastifyRequest, reply: FastifyReply) => {
   const { userId } = request.params as any
   const data = validateUpdateUserSchemaBody(request.body)
+  console.log(data, userId)
   const user = await UserService.update(userId, data)
 
   return reply.status(httpStatus.OK).send(user)
+  // return reply.status(httpStatus.OK).send()
 }
 
 const get = async (request: FastifyRequest, reply: FastifyReply) => {

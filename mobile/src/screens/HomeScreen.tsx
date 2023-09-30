@@ -18,6 +18,7 @@ import { StackNavigationProps } from "../types"
 
 type RootStackParamList = {
   AddUserScreen: undefined
+  UpdateUserScreen: undefined
 }
 
 type LoginScreenNavigationProp = StackNavigationProps<RootStackParamList>
@@ -26,7 +27,7 @@ export const HomeScreen = () => {
   const [{ colors }] = useTheme()
   const [
     { users, isLoading },
-    { onNextPage, onSelectItem, unselectItem, resetState },
+    { onNextPage, onSelectItem, unselectItem, resetState, onSelectUser },
   ] = useUsers()
   const [showFilter, setOpenFilter] = useState(false)
 
@@ -51,7 +52,8 @@ export const HomeScreen = () => {
       if (item.selected) return unselectItem(item.id)
       if (hasSelected) return onSelectItem(item.id)
 
-      console.log("onPress")
+      onSelectUser(item)
+      navigation.navigate("UpdateUserScreen")
     }
 
     const onLongPress = () => {

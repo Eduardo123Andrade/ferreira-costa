@@ -12,7 +12,6 @@ export const validateUpdateUserSchemaBody = (data: unknown): UpdateUser => {
   const bodySchema = z.object({
     name: z.string(),
     login: z.string(),
-    password: z.string().min(6),
     email: z.string().refine(validateEmail, "Invalid email"),
     phone: z.string().length(11),
     cpf: z.string().refine(validateCPF, "Invalid CPF"),
