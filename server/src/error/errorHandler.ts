@@ -7,6 +7,13 @@ import { CustomError } from "./CustomError"
 
 type LocalError = PrismaClientKnownRequestError | ZodError | CustomError
 
+const TARGET_VALUE: any = {
+  cpf: "cpf",
+  login: "login",
+  email: "email",
+  phone: "phone",
+}
+
 const getTargetElement = (error: PrismaClientKnownRequestError) => {
   const { meta } = error
   const { target = [] } = meta as Record<string, string>
@@ -21,7 +28,7 @@ const prismaError = (
   switch (error.code) {
     case "P2002":
       const target = getTargetElement(error)
-      if (target === "cpf" || target === "login" || target === "email")
+      if (TARGET_VALUE[target])
         return reply
           .status(httpStatus.BAD_REQUEST)
           .send({ message: `${target} already exists` })
