@@ -4,7 +4,6 @@ export const validatePersonalInfoAnswerSchemaBody = (data: unknown) => {
   const bodySchema = z.object({
     id: z.string(),
     answer: z.string(),
-    userLogin: z.string(),
   })
 
   const result = bodySchema.parse(data)

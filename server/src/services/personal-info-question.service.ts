@@ -26,14 +26,13 @@ const validateQuestion = async (data: ValidateQuestionInterface) => {
   const fields = {
     CPF: "cpf",
     EMAIL: "email",
-    MOTHER_NAME: "motherName",
+    LOGIN: "logins",
   }
 
   const field = fields[personalInfo]
 
   const user = await prisma.user.findFirst({
     where: {
-      login: data.userLogin,
       [field]: {
         endsWith: data.answer,
       },

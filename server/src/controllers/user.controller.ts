@@ -32,7 +32,6 @@ const update = async (request: FastifyRequest, reply: FastifyReply) => {
   const user = await UserService.update(userId, data)
 
   return reply.status(httpStatus.OK).send(user)
-  // return reply.status(httpStatus.OK).send()
 }
 
 const get = async (request: FastifyRequest, reply: FastifyReply) => {

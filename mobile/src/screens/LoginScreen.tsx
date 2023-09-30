@@ -14,6 +14,7 @@ import { StackNavigationProps } from "types"
 
 type RootStackParamList = {
   HomeScreen: undefined
+  RecoverPasswordNavigator: undefined
 }
 
 type LoginScreenNavigationProp = StackNavigationProps<RootStackParamList>

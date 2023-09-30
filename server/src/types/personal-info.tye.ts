@@ -1,1 +1,1 @@
-export type PersonalInfo = "CPF" | "EMAIL" | "MOTHER_NAME"
+export type PersonalInfo = "CPF" | "EMAIL" | "LOGIN"
