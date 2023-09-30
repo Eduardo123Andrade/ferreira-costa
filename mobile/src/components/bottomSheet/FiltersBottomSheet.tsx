@@ -17,7 +17,6 @@ interface FilterBottomSheetProps {
 }
 
 const statusList = [
-  { label: "Selecione", value: undefined },
   { label: "Ativo", value: "ACTIVE" },
   { label: "Inativo", value: "INACTIVE" },
   { label: "Bloqueado", value: "BLOCKED" },

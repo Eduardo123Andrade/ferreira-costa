@@ -2,14 +2,11 @@ import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
 import {
-  AddUserBottomSheet,
   FilterBottomSheet,
   HomeHeader,
-  Icon,
   Loading,
   Screen,
   Separator,
-  Text,
   Touchable,
   UserItemList,
 } from "../components"
@@ -85,7 +82,6 @@ export const HomeScreen = () => {
         contentContainerStyle={styles.flatList}
       />
       <FilterBottomSheet visible={showFilter} onRequestClose={onRequestClose} />
-      <AddUserBottomSheet visible={showAdd} onRequestClose={onRequestClose} />
     </Screen>
   )
 }
