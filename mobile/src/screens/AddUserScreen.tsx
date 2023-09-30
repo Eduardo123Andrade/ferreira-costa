@@ -9,10 +9,11 @@ import {
   Select,
 } from "../components/"
 import { SPACING } from "../theme"
-import { useUserValidationForm } from "../hooks"
+import { usePostRequest, useUserValidationForm } from "../hooks"
 import { UserValidationForm } from "../interfaces"
 import { ScrollView } from "react-native-gesture-handler"
 import { UserStatus } from "types"
+import { useNavigation } from "@react-navigation/native"
 
 const statusList = [
   { label: "Ativo", value: "ACTIVE" },
@@ -23,6 +24,19 @@ const statusList = [
 export const AddUserScreen = () => {
   const [selectedDate, setSelectedDate] = useState<Date>()
   const [selectedStatus, setSelectedStatus] = useState<UserStatus>("ACTIVE")
+  const navigation = useNavigation()
+
+  const { mutate, isLoading } = usePostRequest<any, UserValidationForm>(
+    "/user/create",
+    {
+      onSuccess: () => {
+        navigation.goBack()
+      },
+      onError: ({ response }) => {
+        console.log(response.data.message)
+      },
+    }
+  )
 
   const { getFieldProps, handleSubmit } = useUserValidationForm({
     onSubmit,
@@ -33,6 +47,7 @@ export const AddUserScreen = () => {
 
   function onSubmit(data: UserValidationForm) {
     console.log(data)
+    mutate(data)
   }
 
   const onSelectDate = (date: Date) => {
@@ -98,7 +113,9 @@ export const AddUserScreen = () => {
           />
         </View>
 
-        <Button onPress={onPress}>Adicionar</Button>
+        <Button isLoading={isLoading} onPress={onPress}>
+          Adicionar
+        </Button>
       </ScrollView>
     </Screen>
   )

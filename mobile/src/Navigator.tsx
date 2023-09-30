@@ -20,7 +20,7 @@ export const AppNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="AddUserScreen"
+      // initialRouteName="AddUserScreen"
       screenOptions={screenOptions}
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
