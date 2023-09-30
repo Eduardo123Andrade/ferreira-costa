@@ -4,7 +4,7 @@ import {
   HttpQueryProvider,
   StorageProvider,
   ThemeProvider,
-  UserProvider,
+  UsersProvider,
 } from "./src/providers"
 import {
   NativeStackNavigationOptions,
@@ -20,24 +20,22 @@ const screenOptions: NativeStackNavigationOptions = {
 
 export default function App() {
   return (
-    <StorageProvider>
-      <UserProvider>
-        <HttpQueryProvider>
-          <ApiProvider>
-            <ThemeProvider>
-              <NavigationContainer>
-                <Stack.Navigator screenOptions={screenOptions}>
-                  <Stack.Screen
-                    name="AppNavigator"
-                    component={AppNavigator}
-                    options={screenOptions}
-                  />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </ThemeProvider>
-          </ApiProvider>
-        </HttpQueryProvider>
-      </UserProvider>
-    </StorageProvider>
+    <HttpQueryProvider>
+      <ApiProvider>
+        <UsersProvider>
+          <ThemeProvider>
+            <NavigationContainer>
+              <Stack.Navigator screenOptions={screenOptions}>
+                <Stack.Screen
+                  name="AppNavigator"
+                  component={AppNavigator}
+                  options={screenOptions}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ThemeProvider>
+        </UsersProvider>
+      </ApiProvider>
+    </HttpQueryProvider>
   )
 }

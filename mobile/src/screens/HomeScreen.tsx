@@ -1,14 +1,15 @@
-import { useTheme } from "../hooks"
+import { useTheme, useUsers } from "../hooks"
 import {
   BottomSheet,
   FilterBottomSheet,
+  Icon,
   Screen,
   Separator,
   Text,
   Touchable,
   UserItemList,
 } from "../components"
-import React from "react"
+import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { RenderItem, User } from "../interfaces"
 import { SPACING } from "../theme"
@@ -17,6 +18,16 @@ import { FlatList } from "react-native-gesture-handler"
 
 export const HomeScreen = () => {
   const [{ colors }] = useTheme()
+  const [{ users }] = useUsers()
+  const [showFilter, setOpenFilter] = useState(false)
+
+  const onOpenFilter = () => {
+    setOpenFilter(true)
+  }
+
+  const onRequestClose = () => {
+    setOpenFilter(false)
+  }
 
   const renderItem = ({ item }: RenderItem<User>) => {
     const backgroundColor = colors.surface
@@ -40,12 +51,19 @@ export const HomeScreen = () => {
 
   return (
     <Screen contentContainerStyles={styles.container}>
+      <View style={styles.header}>
+        <Icon
+          color={colors.textColor}
+          name="filter-list"
+          onPress={onOpenFilter}
+        />
+      </View>
       <FlatList
-        data={USER_LIST}
+        data={users}
         renderItem={renderItem}
         ItemSeparatorComponent={Separator}
       />
-      <FilterBottomSheet visible onRequestClose={() => {}} />
+      <FilterBottomSheet visible={showFilter} onRequestClose={onRequestClose} />
     </Screen>
   )
 }
@@ -54,6 +72,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 40,
+  },
+  header: {
+    flexDirection: "row-reverse",
+    paddingHorizontal: SPACING.MD,
   },
   itemContainer: {
     paddingVertical: SPACING.SM,

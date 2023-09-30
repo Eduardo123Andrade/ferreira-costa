@@ -8,5 +8,5 @@ export const userRoutes = async (app: FastifyInstance) => {
 
   app.put("/user/:userId", UserController.update)
 
-  app.get("/user", UserController.get)
+  app.get("/users", UserController.get)
 }

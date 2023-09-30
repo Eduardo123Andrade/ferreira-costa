@@ -1,6 +1,6 @@
-export * from './ApiProvider'
-export * from './StorageProvider'
-export * from './ThemeProvider'
-export * from './UserProvider'
+export * from "./ApiProvider"
+export * from "./StorageProvider"
+export * from "./ThemeProvider"
+export * from "./UsersProvider"
 
-export { HttpQueryProvider } from './HttpQueryProvider'
+export { HttpQueryProvider } from "./HttpQueryProvider"

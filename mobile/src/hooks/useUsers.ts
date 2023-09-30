@@ -1,7 +1,7 @@
-import { UserContext } from "../providers/UserProvider"
+import { UserContext } from "../providers/UsersProvider"
 import { useContext } from "react"
 
-export const useUser = () => {
+export const useUsers = () => {
   const context = useContext(UserContext)
 
   if (!context)

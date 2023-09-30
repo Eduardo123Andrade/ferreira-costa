@@ -8,16 +8,18 @@ import { Select } from "./Select"
 import { Text } from "./Text"
 import { DatePicker } from "./DatePicker"
 import { Icon } from "./Icon"
+import { useUsers } from "../hooks"
 
 interface FilterBottomSheetProps {
-  visible: true
+  visible: boolean
   onRequestClose: () => void
 }
 
 const statusList = [
+  { label: "Selecione", value: undefined },
   { label: "Ativo", value: "ACTIVE" },
   { label: "Inativo", value: "INACTIVE" },
-  { label: "Bloqueado", value: "BLOQUED" },
+  { label: "Bloqueado", value: "BLOCKED" },
 ]
 
 export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
@@ -25,13 +27,15 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
   const [name, setName] = useState<string>()
   const [cpf, setCpf] = useState<string>()
   const [login, setLogin] = useState<string>()
-  const [biggerThen, setBiggerThen] = useState<number>()
+  const [biggerThan, setBiggerThan] = useState<number>()
   const [lessThan, setLessThan] = useState<number>()
 
   const [createdAt, setCreatedAt] = useState<Date>()
   const [updatedAt, setUpdatedAt] = useState<Date>()
   const [openCreatedAtDatePicker, setOpenCreatedAtDatePicker] = useState(false)
   const [openUpdateAtDatePicker, setOpenUpdateAtDatePicker] = useState(false)
+
+  const [, { setFilter }] = useUsers()
 
   const onValueChange = (value: string) => {
     setSelectedStatus(value)
@@ -55,35 +59,34 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
     setUpdatedAt(date)
   }
 
-  const onSetBiggerThen = (text: string) => {
-    setBiggerThen(Number(text ?? 0))
+  const onSetBiggerThan = (text: string) => {
+    setBiggerThan(Number(text ?? 0))
   }
 
   const onSetLessThan = (text: string) => {
     setLessThan(Number(text ?? 0))
   }
 
-  useEffect(() => {
-    console.log({
-      biggerThen,
+  const onSaveFilter = () => {
+    const date1 = new Date(createdAt)
+    const date2 = new Date(updatedAt)
+
+    setFilter({
+      biggerThan,
       lessThan,
       name,
       cpf,
       login,
-      selectedStatus,
-      createdAt,
-      updatedAt,
+      status: selectedStatus,
+      createdAt:
+        createdAt &&
+        `${date1.getFullYear()}-${date1.getMonth() + 1} - ${date1.getDate()}`,
+      updatedAt:
+        updatedAt &&
+        `${date2.getFullYear()}-${date2.getMonth() + 1} - ${date2.getDate()}`,
     })
-  }, [
-    biggerThen,
-    lessThan,
-    name,
-    cpf,
-    login,
-    selectedStatus,
-    createdAt,
-    updatedAt,
-  ])
+    props.onRequestClose()
+  }
 
   return (
     <BottomSheet {...props}>
@@ -106,8 +109,8 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
             <View style={styles.line}>
               <Text>Maior que:</Text>
               <TextInput
-                value={`${biggerThen ?? 0}`}
-                onChangeText={onSetBiggerThen}
+                value={`${biggerThan ?? 0}`}
+                onChangeText={onSetBiggerThan}
                 keyboardType="numeric"
                 placeholder="00"
               />
@@ -146,7 +149,7 @@ export const FilterBottomSheet: React.FC<FilterBottomSheetProps> = (props) => {
           </View>
         </View>
 
-        <Button>Buscar</Button>
+        <Button onPress={onSaveFilter}>Buscar</Button>
 
         {openCreatedAtDatePicker && (
           <DatePicker selectDate={onSelectCreatedAtDatePicker} />

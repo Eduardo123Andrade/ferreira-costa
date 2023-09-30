@@ -65,25 +65,25 @@ const filterByDate = (field: string, date?: string): Object[] => {
   ]
 }
 
-const filterByAge = (minAge = 0, maxAge = 0) => {
-  if (!minAge && !maxAge) return []
+const filterByAge = (biggerThen = 0, lessThan = 0) => {
+  if (!biggerThen && !lessThan) return []
 
   const today = new Date()
   const firstAge = new Date(today)
-  firstAge.setFullYear(today.getFullYear() - minAge)
+  firstAge.setFullYear(today.getFullYear() - biggerThen)
 
   const secondAge = new Date(today)
-  secondAge.setFullYear(today.getFullYear() - maxAge)
+  secondAge.setFullYear(today.getFullYear() - lessThan)
 
   return [
-    maxAge && {
+    lessThan && {
       birthdate: {
-        gte: secondAge.toISOString(), // Data há 26 anos atrás
+        gte: secondAge.toISOString(),
       },
     },
     {
       birthdate: {
-        lte: firstAge.toISOString(), // Data há 18 anos atrás
+        lte: firstAge.toISOString(),
       },
     },
   ]
@@ -99,8 +99,8 @@ const get = async (query: UserFilter) => {
     updatedAt,
     limit,
     offset = 0,
-    minAge = 0,
-    maxAge,
+    biggerThen = 0,
+    lessThan,
   } = query
 
   const where: any = {
@@ -111,7 +111,7 @@ const get = async (query: UserFilter) => {
       status && { status: { equals: status.replace(/"/g, "") } },
       ...filterByDate("createdAt", createdAt),
       ...filterByDate("updatedAt", updatedAt),
-      ...filterByAge(minAge, maxAge),
+      ...filterByAge(biggerThen, lessThan),
     ],
   }
 
