@@ -1,4 +1,4 @@
-import { InputStatus } from "types"
+import { InputStatus } from "../types/inputStatus"
 import {
   FieldInputProps as FieldInputPropsFormik,
   FormikHelpers,

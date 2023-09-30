@@ -7,6 +7,6 @@ export interface UserFilter {
   updatedAt?: string
   limit?: number
   offset?: number
-  biggerThen?: number
+  biggerThan?: number
   lessThan?: number
 }

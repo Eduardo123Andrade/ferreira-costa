@@ -10,4 +10,5 @@ export interface User {
   birthdate: Date
   motherName: string
   status: UserStatus
+  selected?: boolean
 }

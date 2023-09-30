@@ -35,9 +35,11 @@ const update = async (request: FastifyRequest, reply: FastifyReply) => {
 
 const get = async (request: FastifyRequest, reply: FastifyReply) => {
   const query = request.query as any
-  const users = await UserService.get(query)
+  const { count, users: userList } = await UserService.get(query)
 
-  return reply.status(httpStatus.OK).send(users)
+  const users = userList.map(userView)
+
+  return reply.status(httpStatus.OK).send({ count, users })
 }
 
 export const UserController = {

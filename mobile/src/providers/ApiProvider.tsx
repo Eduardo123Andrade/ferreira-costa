@@ -1,6 +1,5 @@
 import React, { createContext, useMemo } from "react"
 import Axios, { AxiosInstance } from "axios"
-import { useUser } from "../hooks/useUser"
 
 interface ApiContextType {
   API: AxiosInstance
@@ -13,22 +12,23 @@ interface ApiProvider {
 }
 
 export const ApiProvider: React.FC<ApiProvider> = ({ children }) => {
-  const [{ user }] = useUser()
+  // const [{ user }] = useUser()
   const API = useMemo(
     () =>
       Axios.create({
-        baseURL: "http://192.168.1.10:4000/api",
+        baseURL: "http://192.168.1.13:3333",
       }),
     []
   )
 
-  if (user?.token)
-    API.interceptors.request.use((config) => {
-      if (config.url !== "/auth/login" && config.url !== "/auth/sign-up") {
-        config.headers["Authorization"] = `Bearer ${user.token}`
-      }
-      return config
-    })
+  // if (user?.token)
+  // API.interceptors.request.use((config) => {
+  // return config
+  //   if (config.url !== "/auth/login" && config.url !== "/auth/sign-up") {
+  //     config.headers["Authorization"] = `Bearer ${user.token}`
+  //   }
+  //   return config
+  // })
 
   return <ApiContext.Provider children={children} value={{ API }} />
 }

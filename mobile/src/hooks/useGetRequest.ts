@@ -7,7 +7,7 @@ import {
 } from "react-query"
 import { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios"
 import { useAPI } from "./useApi"
-import { RequestError } from "interfaces"
+import { RequestError } from "../interfaces/RequestError"
 
 export type UseGetRequestStatus = MutationStatus
 
