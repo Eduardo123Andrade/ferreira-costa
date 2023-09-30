@@ -1,39 +1,25 @@
-import { usePutRequest, useRecoverPassword, useUpdatePassword } from "../hooks"
-import { Button, Screen, Text, TextInput } from "../components"
-import React, { useState } from "react"
-import { StyleSheet, View } from "react-native"
-import { SPACING } from "../theme"
-import { UpdatePasswordForm } from "interfaces"
-import { StackNavigationProps } from "types"
 import { useNavigation } from "@react-navigation/native"
-
-type RootStackParamList = {
-  AppNavigator: undefined
-  PersonalInfoQuestionScreen: undefined
-}
-
-type UpdatePasswordScreenNavigationProp =
-  StackNavigationProps<RootStackParamList>
+import { UpdatePasswordForm } from "interfaces"
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import { Button, Screen, TextInput } from "../components"
+import { usePutRequest, useRecoverPassword, useUpdatePassword } from "../hooks"
+import { SPACING } from "../theme"
 
 export const UpdatePasswordScreen = () => {
   const [{ userId }] = useRecoverPassword()
 
-  const navigation = useNavigation<UpdatePasswordScreenNavigationProp>()
+  const navigation = useNavigation()
 
   const { handleSubmit, getFieldProps } = useUpdatePassword({ onSubmit })
   const { mutate, isLoading } = usePutRequest("/update-password", {
     onSuccess: () => {
-      console.log("olar")
+      navigation.goBack()
     },
   })
 
   function onSubmit({ password }: UpdatePasswordForm) {
-    console.log("??")
-    navigation.goBack()
-    // mutate({
-    //   userId,
-    //   password,
-    // })
+    mutate({ userId, password })
   }
 
   return (
