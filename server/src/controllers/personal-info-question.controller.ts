@@ -17,9 +17,9 @@ const validateQuestion = async (
 ) => {
   const body = validatePersonalInfoAnswerSchemaBody(request.body)
 
-  const code = await PersonalInfoQuestionService.validateQuestion(body)
+  const result = await PersonalInfoQuestionService.validateQuestion(body)
 
-  return reply.status(httpStatus.OK).send({ code })
+  return reply.status(httpStatus.OK).send(result)
 }
 
 export const PersonalInfoQuestionController = {

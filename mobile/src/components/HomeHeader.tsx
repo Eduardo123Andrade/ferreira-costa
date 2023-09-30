@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { SPACING } from "../theme"
-import { usePutRequest, useTheme, useUsers } from "../hooks"
+import { usePutRequest, useResponseModal, useTheme, useUsers } from "../hooks"
 import { Text } from "./Text"
 import { Icon } from "./Icon"
 import { Loading } from "./Loading"
+import { SimpleModal } from "../modals"
 
 interface HomeHeaderProps {
   onOpenAdd: () => void
@@ -51,6 +52,10 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
   const [{ users, maxLength, selectedItems }, { resetState }] = useUsers()
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [{ colors }] = useTheme()
+  const [
+    { show, message },
+    { startModalResponse, resetState: resetStateModal },
+  ] = useResponseModal()
 
   const { mutate, isLoading } = usePutRequest<any, Variables>(
     "/users/disable",
@@ -60,7 +65,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
         setLoadingDelete(false)
       },
       onError: ({ response }) => {
-        console.log(response.data.message)
+        startModalResponse(response.data.message)
       },
     }
   )
@@ -113,6 +118,11 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
           onPress={onDelete}
         />
       )}
+      <SimpleModal
+        message={message}
+        visible={show}
+        onRequestClose={resetStateModal}
+      />
     </View>
   )
 }

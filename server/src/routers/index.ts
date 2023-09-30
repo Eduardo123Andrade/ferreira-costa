@@ -1,5 +1,15 @@
-export { authenticationRouter } from "./authentication.router"
-export { personalInfoQuestionRouter } from "./personal-info-question.router"
-export { updatePasswordRoutes } from "./update-password.router"
-export { userRoutes } from "./user.router"
-export { validateCodeRouter } from "./validate-code.router"
+import { authenticationRouter } from "./authentication.router"
+import { personalInfoQuestionRouter } from "./personal-info-question.router"
+import { updatePasswordRoutes } from "./update-password.router"
+import { userRoutes } from "./user.router"
+import { validateCodeRouter } from "./validate-code.router"
+
+import { FastifyInstance } from "fastify"
+
+export const registerRouter = async (app: FastifyInstance) => {
+  app.register(personalInfoQuestionRouter)
+  app.register(userRoutes)
+  app.register(validateCodeRouter)
+  app.register(updatePasswordRoutes)
+  app.register(authenticationRouter)
+}

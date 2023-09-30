@@ -1,20 +1,10 @@
 import fastify from "fastify"
 import { errorHandler } from "./error/errorHandler"
-import {
-  authenticationRouter,
-  personalInfoQuestionRouter,
-  updatePasswordRoutes,
-  userRoutes,
-  validateCodeRouter,
-} from "./routers"
+import { registerRouter } from "./routers"
 
 const app = fastify()
 
-app.register(personalInfoQuestionRouter)
-app.register(userRoutes)
-app.register(validateCodeRouter)
-app.register(updatePasswordRoutes)
-app.register(authenticationRouter)
+app.register(registerRouter)
 
 app.setErrorHandler(errorHandler)
 

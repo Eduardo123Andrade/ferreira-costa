@@ -11,11 +11,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({ selectDate }) => {
   }
 
   return (
-    <DateTimePicker
-      onAccessibilityEscape={console.log}
-      onChange={onChange}
-      display="calendar"
-      value={new Date()}
-    />
+    <DateTimePicker onChange={onChange} display="calendar" value={new Date()} />
   )
 }
