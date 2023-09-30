@@ -7,6 +7,7 @@ import { UserFilter } from "interfaces/UserFilter.interface"
 interface UsersContextState {
   isLoading: boolean
   users: User[]
+  maxLength: number
 }
 
 interface UsersContextActions {
@@ -91,7 +92,7 @@ export const UsersProvider: React.FC<UserProvider> = ({ children }) => {
     <UserContext.Provider
       children={children}
       value={[
-        { isLoading, users },
+        { isLoading, users, maxLength },
         { setFilter, onNextPage },
       ]}
     />

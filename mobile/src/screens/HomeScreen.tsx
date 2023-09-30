@@ -7,6 +7,7 @@ import {
   Loading,
   Screen,
   Separator,
+  Text,
   Touchable,
   UserItemList,
 } from "../components"
@@ -16,7 +17,7 @@ import { SPACING } from "../theme"
 
 export const HomeScreen = () => {
   const [{ colors }] = useTheme()
-  const [{ users, isLoading }, { onNextPage }] = useUsers()
+  const [{ users, isLoading, maxLength }, { onNextPage }] = useUsers()
   const [showFilter, setOpenFilter] = useState(false)
 
   const onOpenFilter = () => {
@@ -60,6 +61,7 @@ export const HomeScreen = () => {
   return (
     <Screen contentContainerStyles={styles.container}>
       <View style={styles.header}>
+        {!!users.length && <Text bold>{`total: ${maxLength}`}</Text>}
         <Icon
           color={colors.textColor}
           name="filter-list"
@@ -86,7 +88,9 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   header: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: SPACING.MD,
   },
   flatList: {

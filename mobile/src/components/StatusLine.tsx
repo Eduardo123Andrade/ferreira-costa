@@ -15,14 +15,14 @@ export const StatusLine = ({ status }: StatusProps) => {
 
   const statusColor = {
     ACTIVE: colors.success,
-    INACTIVE: colors.error,
-    BLOCKED: colors.blocked,
+    INACTIVE: colors.disabled,
+    BLOCKED: colors.error,
   }
 
   return (
     <View style={styles.container}>
       <Text bold>Status: </Text>
-      <Text color={statusColor[status]} bold>
+      <Text bold color={statusColor[status]}>
         {statusData}
       </Text>
     </View>

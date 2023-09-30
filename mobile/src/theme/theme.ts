@@ -2,7 +2,6 @@ import { colors } from "./colors"
 
 export interface Theme {
   background: string
-  blocked: string
   buttonLabel: string
   disabled: string
   error: string
@@ -18,7 +17,6 @@ export interface Theme {
 
 const dark: Theme = {
   background: colors.gray[900],
-  blocked: colors.red[500],
   buttonLabel: colors.gray[100],
   disabled: colors.blue[300],
   error: colors.red[600],
