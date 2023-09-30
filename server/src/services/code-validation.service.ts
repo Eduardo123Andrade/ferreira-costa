@@ -12,8 +12,6 @@ const validate = async (data: ValidateCode) => {
 
   if (!user) throw new NotFoundError("Users not found")
 
-  console.log(data.code)
-
   const code = await prisma.validateCode.findFirst({
     where: {
       userId: data.userId,
