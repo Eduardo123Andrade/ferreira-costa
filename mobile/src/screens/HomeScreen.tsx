@@ -1,5 +1,13 @@
 import { useTheme } from "../hooks"
-import { Screen, Separator, Text, Touchable, UserItemList } from "../components"
+import {
+  BottomSheet,
+  FilterBottomSheet,
+  Screen,
+  Separator,
+  Text,
+  Touchable,
+  UserItemList,
+} from "../components"
 import React from "react"
 import { StyleSheet, View } from "react-native"
 import { RenderItem, User } from "../interfaces"
@@ -33,11 +41,11 @@ export const HomeScreen = () => {
   return (
     <Screen contentContainerStyles={styles.container}>
       <FlatList
-        keyExtractor={(item) => item.id}
         data={USER_LIST}
         renderItem={renderItem}
         ItemSeparatorComponent={Separator}
       />
+      <FilterBottomSheet visible onRequestClose={() => {}} />
     </Screen>
   )
 }
