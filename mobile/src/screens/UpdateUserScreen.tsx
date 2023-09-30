@@ -29,7 +29,6 @@ export const UpdateUserScreen = () => {
 
   const { mutate, isLoading } = usePutRequest(`/user/${selectedUser.id}`, {
     onSuccess: () => {
-      console.log("olar")
       navigation.goBack()
     },
     onError: ({ response }) => {
@@ -39,7 +38,6 @@ export const UpdateUserScreen = () => {
 
   const onSubmit = (data: UserValidationForm) => {
     const { password, ...rest } = data
-    console.log(rest)
     mutate(rest)
   }
 

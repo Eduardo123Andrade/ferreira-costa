@@ -23,6 +23,8 @@ const statusList = [
   { label: "Bloqueado", value: "BLOCKED" },
 ]
 
+const setInitialDate = (date?: Date) => (date ? new Date(date) : undefined)
+
 export const UserForm: React.FC<UserFormProps> = ({
   initialValues,
   isEdit,
@@ -30,7 +32,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   onSubmit,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(
-    new Date(initialValues.birthdate)
+    setInitialDate(initialValues?.birthdate)
   )
   const [selectedStatus, setSelectedStatus] = useState<UserStatus>("ACTIVE")
 
