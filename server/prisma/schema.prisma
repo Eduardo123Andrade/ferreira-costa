@@ -16,7 +16,7 @@ model User {
   login        String         @unique @map("login")
   password     String         @map("password")
   email        String         @unique @map("email")
-  phone        String         @map("phone")
+  phone        String         @unique @map("phone")
   cpf          String         @unique @map("cpf")
   birthdate    DateTime       @map("birthdate")
   motherName   String         @map("mother_name")
