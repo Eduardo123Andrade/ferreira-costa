@@ -1,0 +1,15 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+    "strictNullChecks": false,
+    "isolatedModules": false,
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "src/*"
+      ],
+    }
+  }
+}
