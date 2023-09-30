@@ -7,6 +7,7 @@ import { Icon } from "./Icon"
 import { Loading } from "./Loading"
 
 interface HomeHeaderProps {
+  onOpenAdd: () => void
   onOpenFilter: () => void
 }
 
@@ -14,7 +15,39 @@ interface Variables {
   userIds: string[]
 }
 
-export const HomeHeader: React.FC<HomeHeaderProps> = ({ onOpenFilter }) => {
+interface HeaderLineProps {
+  color: string
+  bold?: boolean
+  label: string
+  loading?: boolean
+  name: string
+  onPress: () => void
+}
+
+const HeaderLine: React.FC<HeaderLineProps> = ({
+  bold,
+  label,
+  loading,
+  ...rest
+}) => {
+  return (
+    <View style={styles.headerLine}>
+      <Text bold={bold}>{label}</Text>
+      {loading ? (
+        <View>
+          <Loading size={24} />
+        </View>
+      ) : (
+        <Icon {...rest} />
+      )}
+    </View>
+  )
+}
+
+export const HomeHeader: React.FC<HomeHeaderProps> = ({
+  onOpenAdd,
+  onOpenFilter,
+}) => {
   const [{ users, maxLength, selectedItems }, { resetState }] = useUsers()
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [{ colors }] = useTheme()
@@ -45,44 +78,40 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({ onOpenFilter }) => {
   return (
     <View style={styles.container}>
       {!!users.length && (
-        <View style={styles.headerLine}>
-          <Text bold>{`Total: ${maxLength}`}</Text>
-          <Icon
-            color={colors.textColor}
-            name="filter-list"
-            onPress={onOpenFilter}
-          />
-        </View>
+        <HeaderLine
+          bold
+          label={`Total: ${users.length}/${maxLength}`}
+          color={colors.textColor}
+          name="filter-list"
+          onPress={onOpenFilter}
+        />
       )}
 
-      {
-        <View style={styles.headerLine}>
-          <Text>Deletar todos</Text>
-          {loadingDelete ? (
-            <View>
-              <Loading size={24} />
-            </View>
-          ) : (
-            <Icon
-              color={colors.textColor}
-              name="delete"
-              onPress={onDeleteAll}
-            />
-          )}
-        </View>
-      }
+      <HeaderLine
+        label="Adicinar usuario"
+        color={colors.textColor}
+        name="add"
+        onPress={onOpenAdd}
+      />
+
+      {!!users.length && (
+        <HeaderLine
+          label="Deletar todos"
+          loading={loadingDelete}
+          color={colors.textColor}
+          name="delete"
+          onPress={onDeleteAll}
+        />
+      )}
 
       {!!selectedItems.length && !loadingDelete && (
-        <View style={styles.headerLine}>
-          <Text>{`Selecionados: ${selectedItems.length}`}</Text>
-          {isLoading ? (
-            <View>
-              <Loading size={24} />
-            </View>
-          ) : (
-            <Icon color={colors.textColor} name="delete" onPress={onDelete} />
-          )}
-        </View>
+        <HeaderLine
+          label={`Selecionados: ${selectedItems.length}`}
+          loading={isLoading}
+          color={colors.textColor}
+          name="delete"
+          onPress={onDelete}
+        />
       )}
     </View>
   )

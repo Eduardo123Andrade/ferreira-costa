@@ -65,9 +65,11 @@ export const HomeScreen = () => {
     )
   }
 
+  const onOpenAdd = () => {}
+
   return (
     <Screen contentContainerStyles={styles.container}>
-      <HomeHeader onOpenFilter={onOpenFilter} />
+      <HomeHeader onOpenAdd={onOpenAdd} onOpenFilter={onOpenFilter} />
       <FlatList
         data={users}
         renderItem={renderItem}
